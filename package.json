@@ -1,0 +1,30 @@
+{
+    "name": "scies",
+    "version": "1.0.0",
+    "description": "ES6による日曜数値計算ライブラリ",
+    "main": "index.js",
+    "directories": {
+        "test": "test"
+    },
+    "scripts": {
+        "test": "mocha --compilers js:babel-register"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/yonda-yonda/scies.git"
+    },
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/yonda-yonda/scies/issues"
+    },
+    "homepage": "https://github.com/yonda-yonda/scies#readme",
+    "dependencies": {},
+    "devDependencies": {
+        "babel-preset-es2015": "^6.24.1",
+        "babel-register": "^6.26.0",
+        "chai": "^4.2.0",
+        "mjs-mocha": "^2.1.0",
+        "mocha": "^5.2.0"
+    }
+}
