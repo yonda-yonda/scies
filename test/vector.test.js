@@ -77,6 +77,13 @@ describe('Vector Class', function() {
             expect(removed.toArray()).to.deep.equal(removedFromExpected);
         });
 
+        it('is passed (0,10,10).', function() {
+            let removed = vec.splice(0, 10, 10);
+            let removedFromExpected = expected.splice(0, 10, 10)
+            expect(vec.toArray()).to.deep.equal(expected);
+            expect(removed.toArray()).to.deep.equal(removedFromExpected);
+        });
+
         it('is passed (length,0,10).', function() {
             let removed = vec.splice(vec.length, 0, 10);
             let removedFromExpected = expected.splice(expected.length, 0, 10)
@@ -349,9 +356,9 @@ describe('Vector Class', function() {
         });
 
         it('don\'t nallow 0 step.', function() {
-          expect(function() {
-              Vector.range(1,10,0)
-          }).to.throw('step must not be zero.');
+            expect(function() {
+                Vector.range(1, 10, 0)
+            }).to.throw('step must not be zero.');
         });
     });
 
@@ -424,8 +431,8 @@ describe('Vector Class', function() {
         it('must be passed only Vector.', function() {
             let vec1 = new Vector(1, 2, 3);
             expect(function() {
-                Vector.sum(vec1, [-1, -2, -3])
-            }).to.throw('the 1-th argument is not vector.');
+                Vector.dot(vec1, [-1, -2, -3])
+            }).to.throw('the 1-th argument is not Vector.');
         });
 
         it('don\'t allow different size vector.', function() {
@@ -435,6 +442,33 @@ describe('Vector Class', function() {
             expect(function() {
                 Vector.dot(vec1, vec2)
             }).to.throw('don\'t match Vector size.');
+        });
+    });
+
+    describe('static cross:', function() {
+        it('calcurate cross product.', function() {
+            let vec1 = new Vector(1, 2, 0);
+            let vec2 = new Vector(0, 1, -1);
+
+            expect(Vector.cross(vec1, vec2).toArray()).to.deep.equal([-2, 1, 1]);
+        });
+
+        it('must be passed only Vector.', function() {
+            let vec1 = new Vector(1, 2, 3);
+            expect(function() {
+                Vector.cross([
+                    -1, -2, -3
+                ], vec1)
+            }).to.throw('the 0-th argument is not Vector(3-dim).');
+        });
+
+        it('must be passed only 3-dim vector.', function() {
+            let vec1 = new Vector(1, 2, 3);
+            let vec2 = new Vector(10, 20);
+
+            expect(function() {
+                Vector.cross(vec1, vec2)
+            }).to.throw('the 1-th argument is not Vector(3-dim).');
         });
     });
 });

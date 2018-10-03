@@ -333,5 +333,19 @@ class Vector {
         }
         return result;
     };
+    static cross(vec1, vec2) {
+        if (!Vector.isVector(vec1) || vec1.length !== 3) {
+            throw new TypeError(`the 0-th argument is not Vector(3-dim).`);
+        }
+        if (!Vector.isVector(vec2) || vec2.length !== 3) {
+            throw new TypeError(`the 1-th argument is not Vector(3-dim).`);
+        }
+        let arr = [
+            vec1[1] * vec2[2] - vec1[2] * vec2[1],
+            vec1[2] * vec2[0] - vec1[0] * vec2[2],
+            vec1[0] * vec2[1] - vec1[1] * vec2[0]
+        ]
+        return new Vector(arr);
+    };
 };
 export default Vector
