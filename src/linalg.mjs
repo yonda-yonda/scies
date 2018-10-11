@@ -1,31 +1,50 @@
 import Matrix from './Matrix.mjs';
 import Vector from './Vector.mjs';
 
+/** 非正則行列エラー */
 class SingularMatrixError extends Error {
+    /**
+     * コンストラクタ
+     * @param {string} message エラーメッセージ
+     *     https://stackoverflow.com/questions/31089801/extending-error-in-javascript-with-es6-syntax-babel
+     */
     constructor(message) {
         super(message);
         Object.setPrototypeOf(this, SingularMatrixError.prototype);
         this.name = this.constructor.name;
     }
-};
+}
 
+/** LU分解 */
 const luDecomp = {
-    pivotPrepare: (...args) => {
-        if (!Matrix.isMatrix(args[0])) {
+    /**
+     * pivotPrepare
+     *     ピボット型LU分解により連立一次方程式(A * x = b)を解く事前準備
+     *
+     * @param {Matrix} A 係数行列
+     * @param {number=} e 打ち切り誤差
+     * @return {Object}
+     *     decomposed: 連立一次方程式を解くのに用いる値の一時保持行列(Matrix)
+     *     pivotedIndex: ピボットする添字配列(Array)
+     *
+     */
+    pivotPrepare: (A, e) => {
+        if (!Matrix.isMatrix(A)) {
             throw new TypeError(`A is not Matrix.`);
-        };
-        if (args[0].dimention.row !== args[0].dimention.col) {
+        }
+
+        if (A.dimention.row !== A.dimention.col) {
             throw new Error(`A is not square.`);
         }
-        let coefficients = args[0];
+        let coefficients = A.copy();
         let amax,
             ip,
             size = coefficients.dimention.row,
             eps = Math.pow(2, -50),
             result = coefficients.copy(),
             pivots = Vector.zeros(size);
-        if (typeof(args[1]) == 'number' && args[1] > 0) {
-            eps = args[1];
+        if (typeof(e) == 'number' && e > 0) {
+            eps = e;
         }
         for (let k = 0; k < size - 1; k++) {
             amax = Math.abs(result[k][k]);
@@ -57,6 +76,17 @@ const luDecomp = {
         }
         return {decomposed: result, pivotedIndex: pivots.toArray()};
     },
+    /**
+     * pivotSolve
+     *     ピボット型LU分解により連立一次方程式(A * x = b)を解く
+     *
+     * @param {Matrix|Vector|Array} b 連立一次方程式の右辺
+     * @param {number} pivotedCoefficients
+     *     連立一次方程式を解くのに用いる値の一時保持行列
+     * @param {Array} pivotedIndex ピボットする添字配列
+     * @return {Vector} 解
+     *
+     */
     pivotSolve: (b, pivotedCoefficients, pivotedIndex) => {
         let result;
         if (Array.isArray(b)) {
@@ -104,6 +134,17 @@ const luDecomp = {
         }
         return result;
     },
+    /**
+     * pivotSolveMatrix
+     *     ピボット型LU分解により連立一次方程式(A * x = B)を解く
+     *
+     * @param {Matrix} B 連立一次方程式の右辺
+     * @param {number} pivotedCoefficients
+     *     連立一次方程式を解くのに用いる値の一時保持行列
+     * @param {Array} pivotedIndex ピボットする添字配列
+     * @return {Matrix} 解
+     *
+     */
     pivotSolveMatrix: (B, pivotedCoefficients, pivotedIndex) => {
         let result = Matrix.zeros(B.dimention.row, B.dimention.col);
         for (let i = 0; i < result.dimention.col; i++) {
@@ -113,16 +154,28 @@ const luDecomp = {
         }
         return result;
     }
-}
+};
 
-const sweepOutMethod = (...args) => {
-    if (!Matrix.isMatrix(args[0])) {
+/**
+ * sweepOutMethod
+ *     掃き出し法による逆行列と行列式を求める。
+ *
+ * @param {Matrix} mat 正方行列
+ * @param {number=} e 打ち切り誤差
+ * @return {Object}
+ *     det: 行列式
+ *     inv: 逆行列
+ *
+ */
+const sweepOutMethod = (mat, e) => {
+    if (!Matrix.isMatrix(mat)) {
         throw new TypeError(`matrix is not Matrix.`);
-    };
-    if (args[0].dimention.row !== args[0].dimention.col) {
+    }
+
+    if (mat.dimention.row !== mat.dimention.col) {
         throw new Error(`coefficient matrix is not square.`);
     }
-    let swep = args[0].copy(),
+    let swep = mat.copy(),
         det = 1.0,
         p = 1.0,
         size = swep.dimention.row,
@@ -130,8 +183,8 @@ const sweepOutMethod = (...args) => {
         amax,
         ip;
     swep.splice('col', size, 0, Matrix.eye(size).toArray());
-    if (typeof(args[1]) == 'number' && args[1] > 0) {
-        eps = args[1];
+    if (typeof(e) == 'number' && e > 0) {
+        eps = e;
     }
     for (let k = 0; k < size; k++) {
         amax = Math.abs(swep[k][k]);
@@ -170,13 +223,40 @@ const sweepOutMethod = (...args) => {
         det,
         inv: swep.slice(0, size, size, size * 2)
     }
-}
+};
+
+/**
+ * inv
+ *     逆行列を求める。
+ *
+ * @param {...*} args 引数はsweepOutMethodに準拠
+ * @return {Matrix} 行列式
+ *
+ */
 const inv = (...args) => {
     return sweepOutMethod(...args).inv;
-}
+};
+
+/**
+ * det
+ *     行列式を求める。
+ *
+ * @param {...*} args 引数はsweepOutMethodに準拠
+ * @return {number} 行列式
+ *
+ */
 const det = (...args) => {
     return sweepOutMethod(...args).det;
-}
+};
+
+/**
+ * isNonSingular
+ *     正則行列か判定する。
+ *
+ * @param {...*} args 引数はsweepOutMethodに準拠
+ * @return {boolean} 正則行列か否か
+ *
+ */
 const isNonSingular = (...args) => {
     try {
         sweepOutMethod(...args);
@@ -186,21 +266,30 @@ const isNonSingular = (...args) => {
         }
     }
     return true;
-}
-const solve = (A, b) => {
-    /*
-        A * x = b or A * X = B
-    */
+};
+
+/**
+ * solve
+ *     連立一次方程式(A * x = b or A * x = B)を解く
+ *
+ * @param {Matrix} A 係数行列
+ * @param {Matrix|Vector|Array} b 右辺
+ * @param {number=} e 打ち切り誤差
+ * @return {Vector} 解
+ *
+ */
+const solve = (A, b, e) => {
     let prepared = luDecomp.pivotPrepare(A);
 
     let result;
     if (Matrix.isMatrix(b) && b.dimention.row !== 1 && b.dimention.col !== 1) {
-        result = luDecomp.pivotSolve(b, prepared.decomposed, prepared.pivotedIndex);
-    } else {
         result = luDecomp.pivotSolveMatrix(b, prepared.decomposed, prepared.pivotedIndex);
+    } else {
+        result = luDecomp.pivotSolve(b, prepared.decomposed, prepared.pivotedIndex);
     }
     return result;
 };
+
 export default {
     luDecomp,
     sweepOutMethod,

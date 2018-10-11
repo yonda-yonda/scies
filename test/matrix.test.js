@@ -799,7 +799,7 @@ describe('Matrix Class', function() {
 
             expect(function() {
                 mat.ope('+', '1')
-            }).to.throw('scolor is not number.');
+            }).to.throw('scalar is not number.');
         });
 
         it('don\'t change ownself.', function() {
