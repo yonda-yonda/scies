@@ -46,12 +46,12 @@ class Vector {
         let removeLength = 0;
         if (typeof(args[0]) === 'number') {
             if (args[0] >= 0) {
-                startIndex = args[0];
+                startIndex = Math.floor(args[0]);
                 if (startIndex > this.length) {
                     startIndex = this.length;
                 }
             } else {
-                startIndex = this.length + args[0];
+                startIndex = this.length + Math.ceil(args[0]);
                 if (startIndex < 0) {
                     startIndex = 0;
                 }
@@ -59,8 +59,8 @@ class Vector {
         }
         if (args.length < 2) {
             removeLength = this.length - startIndex;
-        } else if (typeof(args[1]) === 'number') {
-            removeLength = args[1];
+        } else if (typeof(args[1]) === 'number' && args[1] > 0) {
+            removeLength = Math.floor(args[1]);
             if (startIndex + removeLength > this.length) {
                 removeLength = this.length - startIndex;
             }
@@ -249,12 +249,12 @@ class Vector {
         let endIndex = this.length;
         if (typeof(start) === 'number') {
             if (start >= 0) {
-                startIndex = start;
+                startIndex = Math.floor(start);
                 if (startIndex > this.length) {
                     startIndex = this.length;
                 }
             } else {
-                startIndex = this.length + start;
+                startIndex = this.length +  Math.ceil(start);
                 if (startIndex < 0) {
                     startIndex = 0;
                 }
@@ -262,12 +262,12 @@ class Vector {
         }
         if (typeof(end) === 'number') {
             if (end > 0) {
-                endIndex = end;
+                endIndex = Math.floor(end);
                 if (endIndex > this.length) {
                     endIndex = this.length;
                 }
             } else {
-                endIndex = this.length + end;
+                endIndex = this.length + Math.ceil(end);
                 if (endIndex < 0) {
                     endIndex = 0;
                 }
@@ -411,14 +411,15 @@ class Vector {
      * zeros
      *     値がすべてゼロのベクトルを作る。
      *
-     * @param {number} length 作成するベクトルの長さ。
+     * @param {number} len 作成するベクトルの長さ。
      * @return {Vector} new Vector(0, ..., 0)
      *
      */
-    static zeros(length) {
-        if (typeof(length) !== 'number') {
+    static zeros(len) {
+        if (typeof(len) !== 'number') {
             throw new TypeError(`length is not number.`);
         }
+        const length = Math.floor(len);
         let arr = [];
         for (let i = 0; i < length; i++) {
             arr.push(0);

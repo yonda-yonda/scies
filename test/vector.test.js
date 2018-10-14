@@ -105,6 +105,48 @@ describe('Vector Class', function() {
             expect(removed.toArray()).to.deep.equal(removedFromExpected);
         });
 
+        it('is passed (2.1,1,10).', function() {
+            let removed = vec.splice(2.1,1,10);
+            let removedFromExpected = expected.splice(2.1,1,10)
+            expect(vec.toArray()).to.deep.equal(expected);
+            expect(removed.toArray()).to.deep.equal(removedFromExpected);
+        });
+
+        it('is passed (2.7,1,10).', function() {
+            let removed = vec.splice(2.7,1,10);
+            let removedFromExpected = expected.splice(2.7,1,10)
+            expect(vec.toArray()).to.deep.equal(expected);
+            expect(removed.toArray()).to.deep.equal(removedFromExpected);
+        });
+
+        it('is passed (-2.7,1,10).', function() {
+            let removed = vec.splice(-2.7,1,10);
+            let removedFromExpected = expected.splice(-2.7,1,10)
+            expect(vec.toArray()).to.deep.equal(expected);
+            expect(removed.toArray()).to.deep.equal(removedFromExpected);
+        });
+
+        it('is passed (2.1,1.1,10).', function() {
+            let removed = vec.splice(2.1,1.1,10);
+            let removedFromExpected = expected.splice(2.1,1.1,10)
+            expect(vec.toArray()).to.deep.equal(expected);
+            expect(removed.toArray()).to.deep.equal(removedFromExpected);
+        });
+
+        it('is passed (2.1,1.9,10).', function() {
+            let removed = vec.splice(2.1,1.9,10);
+            let removedFromExpected = expected.splice(2.1,1.9,10)
+            expect(vec.toArray()).to.deep.equal(expected);
+            expect(removed.toArray()).to.deep.equal(removedFromExpected);
+        });
+
+        it('is passed (2.1,-2,10).', function() {
+            let removed = vec.splice(2.1,-2,10);
+            let removedFromExpected = expected.splice(2.1,-2,10)
+            expect(vec.toArray()).to.deep.equal(expected);
+            expect(removed.toArray()).to.deep.equal(removedFromExpected);
+        });
+
         it('is passed (2).', function() {
             let removed = vec.splice(2);
             let removedFromExpected = expected.splice(2)
@@ -242,6 +284,42 @@ describe('Vector Class', function() {
             let expectedResult = expected.slice(3, 3);
             expect(result.toArray()).to.deep.equal(expectedResult);
         });
+
+        it('is passed (1.2,3.9).', function() {
+            let result = vec.slice(1.2,3.9);
+            let expectedResult = expected.slice(1.2,3.9);
+            expect(result.toArray()).to.deep.equal(expectedResult);
+        });
+
+        it('is passed (1.8,3.1).', function() {
+            let result = vec.slice(1.8,3.1);
+            let expectedResult = expected.slice(1.8,3.1);
+            expect(result.toArray()).to.deep.equal(expectedResult);
+        });
+
+        it('is passed (-4.1,-1).', function() {
+            let result = vec.slice(-4.1,-1);
+            let expectedResult = expected.slice(-4.1,-1);
+            expect(result.toArray()).to.deep.equal(expectedResult);
+        });
+
+        it('is passed (-4.8,-1).', function() {
+            let result = vec.slice(-4.8,-1);
+            let expectedResult = expected.slice(-4.8,-1);
+            expect(result.toArray()).to.deep.equal(expectedResult);
+        });
+
+        it('is passed (1,-2.1).', function() {
+            let result = vec.slice(1,-2.1);
+            let expectedResult = expected.slice(1,-2.1);
+            expect(result.toArray()).to.deep.equal(expectedResult);
+        });
+
+        it('is passed (1,-2.9).', function() {
+            let result = vec.slice(1,-2.9);
+            let expectedResult = expected.slice(1,-2.9);
+            expect(result.toArray()).to.deep.equal(expectedResult);
+        });
     });
 
     describe('operator methods:', function() {
@@ -324,6 +402,20 @@ describe('Vector Class', function() {
         it('make vector filled by 0.', function() {
             expect(Vector.zeros(3).toArray()).to.deep.equal([0, 0, 0]);
         });
+
+        it('round down argument.', function() {
+            expect(Vector.zeros(3.8).toArray()).to.deep.equal([0, 0, 0]);
+        });
+    });
+
+    describe('static ones:', function() {
+        it('make vector filled by 1.', function() {
+            expect(Vector.ones(3).toArray()).to.deep.equal([1, 1, 1]);
+        });
+
+        it('round down argument.', function() {
+            expect(Vector.ones(3.8).toArray()).to.deep.equal([1, 1, 1]);
+        });
     });
 
     describe('static range:', function() {
@@ -349,6 +441,10 @@ describe('Vector Class', function() {
 
         it('is passed (4.5).', function() {
             expect(Vector.range(4.5).toArray()).to.deep.equal([0, 1, 2, 3, 4]);
+        });
+
+        it('is passed (1.2,7.8,-1).', function() {
+            expect(Vector.range(1.2, 7.8, -1).toArray()).to.deep.equal([]);
         });
 
         it('is passed (-10).', function() {
