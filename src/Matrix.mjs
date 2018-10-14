@@ -105,12 +105,12 @@ class Matrix {
         }
         if (typeof(args[1]) === 'number') {
             if (args[1] >= 0) {
-                startIndex = args[1];
+                startIndex = Math.floor(args[1]);
                 if (startIndex > this.dimention[direction]) {
                     startIndex = this.dimention[direction];
                 }
             } else {
-                startIndex = this.dimention[direction] + args[1];
+                startIndex = this.dimention[direction] + Math.ceil(args[1]);
                 if (startIndex < 0) {
                     startIndex = 0;
                 }
@@ -118,8 +118,8 @@ class Matrix {
         }
         if (args.length < 3) {
             removeLength = this.dimention[direction] - startIndex;
-        } else if (typeof(args[2]) === 'number') {
-            removeLength = args[2];
+        } else if (typeof(args[2]) === 'number' && args[2] > 0) {
+            removeLength = Math.floor(args[2]);
             if (startIndex + removeLength > this.dimention[direction]) {
                 removeLength = this.dimention[direction] - startIndex;
             }
@@ -294,7 +294,7 @@ class Matrix {
         return this.ope("-", scalar);
     }
 
-     /**
+    /**
       * mul
       *     行列の値すべてにかけ算を行う。
       *
@@ -340,12 +340,12 @@ class Matrix {
         };
         if (typeof(startRow) === 'number') {
             if (startRow >= 0) {
-                rowIndex.start = startRow;
+                rowIndex.start = Math.floor(startRow);
                 if (rowIndex.start > this.dimention.row) {
                     rowIndex.start = this.dimention.row;
                 }
             } else {
-                rowIndex.start = this.dimention.row + startRow;
+                rowIndex.start = this.dimention.row + Math.ceil(startRow);
                 if (rowIndex.start < 0) {
                     rowIndex.start = 0;
                 }
@@ -353,12 +353,12 @@ class Matrix {
         }
         if (typeof(endRow) === 'number') {
             if (endRow > 0) {
-                rowIndex.end = endRow;
+                rowIndex.end = Math.floor(endRow);
                 if (rowIndex.end > this.dimention.row) {
                     rowIndex.end = this.dimention.row;
                 }
             } else {
-                rowIndex.end = this.dimention.row + endRow;
+                rowIndex.end = this.dimention.row + Math.ceil(endRow);
                 if (rowIndex.end < 0) {
                     rowIndex.end = 0;
                 }
@@ -369,12 +369,12 @@ class Matrix {
         }
         if (typeof(startCol) === 'number') {
             if (startCol >= 0) {
-                colIndex.start = startCol;
+                colIndex.start = Math.floor(startCol);
                 if (colIndex.start > this.dimention.col) {
                     colIndex.start = this.dimention.col;
                 }
             } else {
-                colIndex.start = this.dimention.col + startCol;
+                colIndex.start = this.dimention.col + Math.ceil(startCol);
                 if (colIndex.start < 0) {
                     colIndex.start = 0;
                 }
@@ -382,12 +382,12 @@ class Matrix {
         }
         if (typeof(endCol) === 'number') {
             if (endCol > 0) {
-                colIndex.end = endCol;
+                colIndex.end = Math.floor(endCol);
                 if (colIndex.end > this.dimention.col) {
                     colIndex.end = this.dimention.col;
                 }
             } else {
-                colIndex.end = this.dimention.col + endCol;
+                colIndex.end = this.dimention.col + Math.ceil(endCol);
                 if (colIndex.end < 0) {
                     colIndex.end = 0;
                 }
@@ -396,6 +396,7 @@ class Matrix {
                 colIndex.end = colIndex.start
             }
         }
+        console.log(rowIndex, colIndex)
         let rowArr = [];
         for (let i = rowIndex.start; i < rowIndex.end; i++) {
             let colArr = [];
@@ -467,12 +468,12 @@ class Matrix {
         let row;
         if (typeof(index) === 'number') {
             if (index >= 0) {
-                row = index;
+                row = Math.floor(index);
                 if (row >= this.dimention.row) {
                     return new Vector([]);
                 }
             } else {
-                row = this.dimention.row + index;
+                row = this.dimention.row + Math.ceil(index);
                 if (row < 0) {
                     return new Vector([]);
                 }
@@ -497,12 +498,12 @@ class Matrix {
         let col;
         if (typeof(index) === 'number') {
             if (index >= 0) {
-                col = index;
+                col = Math.floor(index);
                 if (col >= this.dimention.col) {
                     return new Vector([]);
                 }
             } else {
-                col = this.dimention.col + index;
+                col = this.dimention.col + Math.ceil(index);
                 if (col < 0) {
                     return new Vector([]);
                 }
@@ -529,12 +530,12 @@ class Matrix {
         let endIndex = this.dimention.row;
         if (typeof(start) === 'number') {
             if (start >= 0) {
-                startIndex = start;
+                startIndex = Math.floor(start);
                 if (startIndex > this.dimention.row) {
                     startIndex = this.dimention.row;
                 }
             } else {
-                startIndex = this.dimention.row + start;
+                startIndex = this.dimention.row + Math.ceil(start);
                 if (startIndex < 0) {
                     startIndex = 0;
                 }
@@ -542,12 +543,12 @@ class Matrix {
         }
         if (typeof(end) === 'number') {
             if (end >= 0) {
-                endIndex = end;
+                endIndex = Math.floor(end);
                 if (endIndex > this.dimention.row) {
                     endIndex = this.dimention.row;
                 }
             } else {
-                endIndex = this.dimention.row + end;
+                endIndex = this.dimention.row + Math.ceil(end);
                 if (endIndex < 0) {
                     endIndex = 0;
                 }
@@ -578,12 +579,12 @@ class Matrix {
         let endIndex = this.dimention.col;
         if (typeof(start) === 'number') {
             if (start >= 0) {
-                startIndex = start;
+                startIndex = Math.floor(start);
                 if (startIndex > this.dimention.col) {
                     startIndex = this.dimention.col;
                 }
             } else {
-                startIndex = this.dimention.col + start;
+                startIndex = this.dimention.col + Math.ceil(start);
                 if (startIndex < 0) {
                     startIndex = 0;
                 }
@@ -591,12 +592,12 @@ class Matrix {
         }
         if (typeof(end) === 'number') {
             if (end >= 0) {
-                endIndex = end;
+                endIndex = Math.floor(end);
                 if (endIndex > this.dimention.col) {
                     endIndex = this.dimention.col;
                 }
             } else {
-                endIndex = this.dimention.col + end;
+                endIndex = this.dimention.col + Math.ceil(end);
                 if (endIndex < 0) {
                     endIndex = 0;
                 }
@@ -663,6 +664,8 @@ class Matrix {
         if (typeof(colLength) !== 'number') {
             throw new TypeError(`col is not number.`);
         }
+        rowLength = Math.floor(rowLength);
+        colLength = Math.floor(colLength);
         let matArr = []
         for (let i = 0; i < rowLength; i++) {
             let rowArr = [];
@@ -722,7 +725,10 @@ class Matrix {
         const size = rowLength > colLength
             ? rowLength
             : colLength;
+        rowLength = Math.floor(rowLength);
+        colLength = Math.floor(colLength);
         if (position >= 0) {
+            position = Math.floor(position);
             if (position > mat.dimention.col)
                 position = mat.dimention.col;
             for (let i = 0; i < size; i++) {
@@ -732,6 +738,7 @@ class Matrix {
             }
         } else {
             position *= -1;
+            position = Math.floor(position);
             if (position > mat.dimention.row)
                 position = mat.dimention.row;
             for (let i = 0; i < size; i++) {

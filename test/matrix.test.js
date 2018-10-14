@@ -123,6 +123,14 @@ describe('Matrix Class', function() {
             expect(mat.row(-1).toArray()).to.deep.equal([10, 20, 30]);
         });
 
+        it('is passed (1.7).', function() {
+            expect(mat.row(1.7).toArray()).to.deep.equal([10, 20, 30]);
+        });
+
+        it('is passed (-1.2).', function() {
+            expect(mat.row(-1.2).toArray()).to.deep.equal([10, 20, 30]);
+        });
+
         it('is passed (-10).', function() {
             expect(mat.row(-10).toArray()).to.deep.equal([]);
         });
@@ -150,6 +158,14 @@ describe('Matrix Class', function() {
 
         it('is passed (-1).', function() {
             expect(mat.col(-1).toArray()).to.deep.equal([3, 30]);
+        });
+
+        it('is passed (1.6).', function() {
+            expect(mat.col(1.6).toArray()).to.deep.equal([2, 20]);
+        });
+
+        it('is passed (-1.5).', function() {
+            expect(mat.col(-1.5).toArray()).to.deep.equal([3, 30]);
         });
 
         it('is passed (-10).', function() {
@@ -219,6 +235,12 @@ describe('Matrix Class', function() {
             expect(rows.length).to.equal(1);
         });
 
+        it('is passed (1, -2).', function() {
+            let rows = mat.rows(1, -2);
+            expect(rows[0].toArray()).to.deep.equal([10, 20, 30, 40]);
+            expect(rows.length).to.equal(1);
+        });
+
         it('is passed (-10).', function() {
             let rows = mat.rows(-10);
             expect(rows[0].toArray()).to.deep.equal([1, 2, 3, 4]);
@@ -232,6 +254,18 @@ describe('Matrix Class', function() {
             let rows = mat.rows(-1, 0);
             expect(rows[0]).to.equal(undefined);
             expect(rows.length).to.equal(0);
+        });
+
+        it('is passed (1.7, 2.7).', function() {
+            let rows = mat.rows(1.7, 2.7);
+            expect(rows[0].toArray()).to.deep.equal([10, 20, 30, 40]);
+            expect(rows.length).to.equal(1);
+        });
+
+        it('is passed (1.3, -2.7).', function() {
+            let rows = mat.rows(1.3, -2.7);
+            expect(rows[0].toArray()).to.deep.equal([10, 20, 30, 40]);
+            expect(rows.length).to.equal(1);
         });
 
     });
@@ -292,6 +326,12 @@ describe('Matrix Class', function() {
             expect(cols.length).to.equal(2);
         });
 
+        it('is passed (1, -2).', function() {
+            let cols = mat.cols(1, -2);
+            expect(cols[0].toArray()).to.deep.equal([2, 20, 200, 2000]);
+            expect(cols.length).to.equal(1);
+        });
+
         it('is passed (-1).', function() {
             let cols = mat.cols(-1);
             expect(cols[0].toArray()).to.deep.equal([4, 40, 400, 4000]);
@@ -313,6 +353,17 @@ describe('Matrix Class', function() {
             expect(cols.length).to.equal(0);
         });
 
+        it('is passed (1.2, 2.7).', function() {
+            let cols = mat.cols(1.2, 2.7);
+            expect(cols[0].toArray()).to.deep.equal([2, 20, 200, 2000]);
+            expect(cols.length).to.equal(1);
+        });
+
+        it('is passed (1.2, -2.7).', function() {
+            let cols = mat.cols(1.2, -2.7);
+            expect(cols[0].toArray()).to.deep.equal([2, 20, 200, 2000]);
+            expect(cols.length).to.equal(1);
+        });
     });
 
     describe('splice:', function() {
@@ -437,6 +488,126 @@ describe('Matrix Class', function() {
 
         it('is passed ("row", -3, 2, [-1,-2,-3]).', function() {
             let removed = mat.splice("row", -3, 2, [-1, -2, -3]);
+            expect(mat.toArray()).to.deep.equal([
+                [
+                    1, 2, 3
+                ],
+                [
+                    -1, -2, -3
+                ],
+                [1000, 2000, 3000]
+            ]);
+            expect(mat.dimention).to.deep.equal({'row': 3, 'col': 3});
+            expect(removed.toArray()).to.deep.equal([
+                [
+                    10, 20, 30
+                ],
+                [100, 200, 300]
+            ]);
+        });
+
+        it('is passed ("row", 1.2,2,[-1,-2,-3]).', function() {
+            let removed = mat.splice("row", 1.2, 2, [-1, -2, -3]);
+            expect(mat.toArray()).to.deep.equal([
+                [
+                    1, 2, 3
+                ],
+                [
+                    -1, -2, -3
+                ],
+                [1000, 2000, 3000]
+            ]);
+            expect(mat.dimention).to.deep.equal({'row': 3, 'col': 3});
+            expect(removed.toArray()).to.deep.equal([
+                [
+                    10, 20, 30
+                ],
+                [100, 200, 300]
+            ]);
+        });
+
+        it('is passed ("row", 1.9,2,[-1,-2,-3]).', function() {
+            let removed = mat.splice("row", 1.9, 2, [-1, -2, -3]);
+            expect(mat.toArray()).to.deep.equal([
+                [
+                    1, 2, 3
+                ],
+                [
+                    -1, -2, -3
+                ],
+                [1000, 2000, 3000]
+            ]);
+            expect(mat.dimention).to.deep.equal({'row': 3, 'col': 3});
+            expect(removed.toArray()).to.deep.equal([
+                [
+                    10, 20, 30
+                ],
+                [100, 200, 300]
+            ]);
+        });
+
+        it('is passed ("row", 1.2,2.1,[-1,-2,-3]).', function() {
+            let removed = mat.splice("row", 1.2, 2.1, [-1, -2, -3]);
+            expect(mat.toArray()).to.deep.equal([
+                [
+                    1, 2, 3
+                ],
+                [
+                    -1, -2, -3
+                ],
+                [1000, 2000, 3000]
+            ]);
+            expect(mat.dimention).to.deep.equal({'row': 3, 'col': 3});
+            expect(removed.toArray()).to.deep.equal([
+                [
+                    10, 20, 30
+                ],
+                [100, 200, 300]
+            ]);
+        });
+
+        it('is passed ("row", -3.2, 2, [-1,-2,-3]).', function() {
+            let removed = mat.splice("row", -3.2, 2, [-1, -2, -3]);
+            expect(mat.toArray()).to.deep.equal([
+                [
+                    1, 2, 3
+                ],
+                [
+                    -1, -2, -3
+                ],
+                [1000, 2000, 3000]
+            ]);
+            expect(mat.dimention).to.deep.equal({'row': 3, 'col': 3});
+            expect(removed.toArray()).to.deep.equal([
+                [
+                    10, 20, 30
+                ],
+                [100, 200, 300]
+            ]);
+        });
+
+        it('is passed ("row", -3.9, 2, [-1,-2,-3]).', function() {
+            let removed = mat.splice("row", -3.9, 2, [-1, -2, -3]);
+            expect(mat.toArray()).to.deep.equal([
+                [
+                    1, 2, 3
+                ],
+                [
+                    -1, -2, -3
+                ],
+                [1000, 2000, 3000]
+            ]);
+            expect(mat.dimention).to.deep.equal({'row': 3, 'col': 3});
+            expect(removed.toArray()).to.deep.equal([
+                [
+                    10, 20, 30
+                ],
+                [100, 200, 300]
+            ]);
+        });
+
+        it('is passed ("row", -3.9, 2.8, [-1,-2,-3]).', function() {
+            let removed = mat.splice("row", -3.9, 2.8, [-1, -2, -3]);
             expect(mat.toArray()).to.deep.equal([
                 [
                     1, 2, 3
@@ -688,6 +859,180 @@ describe('Matrix Class', function() {
             ]);
         });
 
+        it('is passed ("col", 1.2,2,[-1],[-10],[-100],[-1000]).', function() {
+            let removed = mat.splice("col", 1.2, 2, [-1], [-10], [-100], [-1000]);
+            expect(mat.toArray()).to.deep.equal([
+                [
+                    1, -1
+                ],
+                [
+                    10, -10
+                ],
+                [
+                    100, -100
+                ],
+                [1000, -1000]
+            ]);
+            expect(mat.dimention).to.deep.equal({'row': 4, 'col': 2});
+            expect(removed.toArray()).to.deep.equal([
+                [
+                    2, 3
+                ],
+                [
+                    20, 30
+                ],
+                [
+                    200, 300
+                ],
+                [2000, 3000]
+            ]);
+        });
+
+        it('is passed ("col", 1.9,2,[-1],[-10],[-100],[-1000]).', function() {
+            let removed = mat.splice("col", 1.9, 2, [-1], [-10], [-100], [-1000]);
+            expect(mat.toArray()).to.deep.equal([
+                [
+                    1, -1
+                ],
+                [
+                    10, -10
+                ],
+                [
+                    100, -100
+                ],
+                [1000, -1000]
+            ]);
+            expect(mat.dimention).to.deep.equal({'row': 4, 'col': 2});
+            expect(removed.toArray()).to.deep.equal([
+                [
+                    2, 3
+                ],
+                [
+                    20, 30
+                ],
+                [
+                    200, 300
+                ],
+                [2000, 3000]
+            ]);
+        });
+
+        it('is passed ("col", 1.9,2.8,[-1],[-10],[-100],[-1000]).', function() {
+            let removed = mat.splice("col", 1.9, 2.8, [-1], [-10], [-100], [-1000]);
+            expect(mat.toArray()).to.deep.equal([
+                [
+                    1, -1
+                ],
+                [
+                    10, -10
+                ],
+                [
+                    100, -100
+                ],
+                [1000, -1000]
+            ]);
+            expect(mat.dimention).to.deep.equal({'row': 4, 'col': 2});
+            expect(removed.toArray()).to.deep.equal([
+                [
+                    2, 3
+                ],
+                [
+                    20, 30
+                ],
+                [
+                    200, 300
+                ],
+                [2000, 3000]
+            ]);
+        });
+
+        it('is passed ("col", -2.2, 2, [-1], [-10], [-100], [-1000]).', function() {
+            let removed = mat.splice("col", -2.2, 2, [-1], [-10], [-100], [-1000]);
+            expect(mat.toArray()).to.deep.equal([
+                [
+                    1, -1
+                ],
+                [
+                    10, -10
+                ],
+                [
+                    100, -100
+                ],
+                [1000, -1000]
+            ]);
+            expect(mat.dimention).to.deep.equal({'row': 4, 'col': 2});
+            expect(removed.toArray()).to.deep.equal([
+                [
+                    2, 3
+                ],
+                [
+                    20, 30
+                ],
+                [
+                    200, 300
+                ],
+                [2000, 3000]
+            ]);
+        });
+
+        it('is passed ("col", -2.9, 2, [-1], [-10], [-100], [-1000]).', function() {
+            let removed = mat.splice("col", -2.9, 2, [-1], [-10], [-100], [-1000]);
+            expect(mat.toArray()).to.deep.equal([
+                [
+                    1, -1
+                ],
+                [
+                    10, -10
+                ],
+                [
+                    100, -100
+                ],
+                [1000, -1000]
+            ]);
+            expect(mat.dimention).to.deep.equal({'row': 4, 'col': 2});
+            expect(removed.toArray()).to.deep.equal([
+                [
+                    2, 3
+                ],
+                [
+                    20, 30
+                ],
+                [
+                    200, 300
+                ],
+                [2000, 3000]
+            ]);
+        });
+
+        it('is passed ("col", -2.2, 2.4, [-1], [-10], [-100], [-1000]).', function() {
+            let removed = mat.splice("col", -2.2, 2, [-1], [-10], [-100], [-1000]);
+            expect(mat.toArray()).to.deep.equal([
+                [
+                    1, -1
+                ],
+                [
+                    10, -10
+                ],
+                [
+                    100, -100
+                ],
+                [1000, -1000]
+            ]);
+            expect(mat.dimention).to.deep.equal({'row': 4, 'col': 2});
+            expect(removed.toArray()).to.deep.equal([
+                [
+                    2, 3
+                ],
+                [
+                    20, 30
+                ],
+                [
+                    200, 300
+                ],
+                [2000, 3000]
+            ]);
+        });
+
         it('is passed ("col", 2).', function() {
             let removed = mat.splice("col", 1);
             expect(mat.toArray()).to.deep.equal([[1], [10], [100], [1000]
@@ -725,7 +1070,7 @@ describe('Matrix Class', function() {
             ]);
         });
 
-        it('is passed ("row", -10,undefined).', function() {
+        it('is passed ("col", -10,undefined).', function() {
             let removed = mat.splice("col", -10, undefined);
             expect(mat.toArray()).to.deep.equal([
                 [
@@ -761,7 +1106,7 @@ describe('Matrix Class', function() {
             expect(removed.toArray()).to.deep.equal([]);
         });
 
-        it('is passed ("row", 10, 0, [-1,-2,-3]).', function() {
+        it('is passed ("col", 10, 0, [-1,-2,-3]).', function() {
             let removed = mat.splice("col", 10, 0, [-1], [-10], [-100], [-1000]);
             expect(mat.toArray()).to.deep.equal([
                 [
@@ -853,6 +1198,74 @@ describe('Matrix Class', function() {
         });
     });
 
+    describe('slice:', function() {
+        let mat;
+        beforeEach(function() {
+            mat = new Matrix([
+                1, 2, 3
+            ], [
+                10, 20, 30
+            ], [
+                100, 200, 300
+            ], [1000, 2000, 3000]);
+        });
+
+        it('is passed (2,1,4,2).', function() {
+            let sliced = mat.slice(2, 1, 4, 2);
+            expect(sliced.dimention).to.deep.equal({'row': 2, 'col': 1});
+            expect(sliced.toArray()).to.deep.equal([
+                [
+                    200
+                ],
+                [2000]
+            ]);
+        });
+
+        it('is passed (1,1,-1,-1).', function() {
+            let sliced = mat.slice(1,1,-1,-1);
+            expect(sliced.dimention).to.deep.equal({'row': 2, 'col': 1});
+            expect(sliced.toArray()).to.deep.equal([
+                [
+                    20
+                ],
+                [200]
+            ]);
+        });
+
+        it('is passed (-3,-2,-1,-1).', function() {
+            let sliced = mat.slice(-3,-2,-1,-1);
+            expect(sliced.dimention).to.deep.equal({'row': 2, 'col': 1});
+            expect(sliced.toArray()).to.deep.equal([
+                [
+                    20
+                ],
+                [200]
+            ]);
+        });
+
+        it('is passed (1.2,1.9,-1.8,-1.4).', function() {
+            let sliced = mat.slice(1.2,1.9,-1.8,-1.4);
+            expect(sliced.dimention).to.deep.equal({'row': 2, 'col': 1});
+            expect(sliced.toArray()).to.deep.equal([
+                [
+                    20
+                ],
+                [200]
+            ]);
+        });
+
+        it('is passed (-3.6,-2.2,-1.4,-1.9).', function() {
+            let sliced = mat.slice(-3.6,-2.2,-1.4,-1.9);
+            expect(sliced.dimention).to.deep.equal({'row': 2, 'col': 1});
+            expect(sliced.toArray()).to.deep.equal([
+                [
+                    20
+                ],
+                [200]
+            ]);
+        });
+    });
+
     describe('transpose:', function() {
         it('create (j * i) matrix.', function() {
             expect(new Matrix([
@@ -895,6 +1308,24 @@ describe('Matrix Class', function() {
                 Matrix.zeros('3', 2)
             }).to.throw('row is not number.');
         });
+
+        it('round down argument.', function() {
+            expect(Matrix.zeros(2.8).toArray()).to.deep.equal([
+                [
+                    0, 0
+                ],
+                [0, 0]
+            ]);
+            expect(Matrix.zeros(3, 2.3).toArray()).to.deep.equal([
+                [
+                    0, 0
+                ],
+                [
+                    0, 0
+                ],
+                [0, 0]
+            ]);
+        });
     });
 
     describe('static ones:', function() {
@@ -922,6 +1353,24 @@ describe('Matrix Class', function() {
             expect(function() {
                 Matrix.ones('3', 2)
             }).to.throw('row is not number.');
+        });
+
+        it('round down argument.', function() {
+            expect(Matrix.ones(2.1).toArray()).to.deep.equal([
+                [
+                    1, 1
+                ],
+                [1, 1]
+            ]);
+            expect(Matrix.ones(3, 2.7).toArray()).to.deep.equal([
+                [
+                    1, 1
+                ],
+                [
+                    1, 1
+                ],
+                [1, 1]
+            ]);
         });
     });
 
@@ -997,6 +1446,28 @@ describe('Matrix Class', function() {
             expect(function() {
                 Matrix.eye(3, 2, '1')
             }).to.throw('pos is not number.');
+        });
+
+        it('round down argument.', function() {
+            expect(Matrix.eye(3.3, 2, 10.8).toArray()).to.deep.equal([
+                [
+                    0, 0
+                ],
+                [
+                    0, 0
+                ],
+                [0, 0]
+            ]);
+
+            expect(Matrix.eye(3, 2.5, -10.2).toArray()).to.deep.equal([
+                [
+                    0, 0
+                ],
+                [
+                    0, 0
+                ],
+                [0, 0]
+            ]);
         });
     });
 
